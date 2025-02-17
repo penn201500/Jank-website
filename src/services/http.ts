@@ -5,7 +5,7 @@ const baseURL = process.env.UMI_PUBLIC_API_URL; // 服务端环境变量
 class ServerHttp {
   private static instance: ServerHttp;
 
-  private constructor() {}
+  private constructor() { }
 
   /** 获取单例 */
   static getInstance(): ServerHttp {

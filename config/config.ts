@@ -1,5 +1,4 @@
 import { defineConfig } from 'umi';
-import { theme } from './theme.config';
 import { proxy } from './proxy';
 import path from 'path';
 import { routes } from './routes';
@@ -11,22 +10,10 @@ export default defineConfig({
     npmClient: 'pnpm', // 指定 npm 客户端
     routes, // 路由配置
     proxy, // 代理配置
-    // theme, // 主题配置
     alias: {
-        "~": path.resolve(__dirname, "../"),
-        "@": path.resolve(__dirname, "../src"),
-        "@assets": path.resolve(__dirname, "../src/assets"),
-        '@utils': path.resolve(__dirname, "../src/utils"),
-        // 组件库
-        '@components': path.resolve(__dirname, "../src/components"),
-        // 系统配置
-        '@detailsConfig': path.resolve(__dirname, "./details.config"),
-        // 全局services
-        '@services': path.resolve(__dirname, "../src/services"),
-        // 菜单配置项
-        "@menuConfig": path.resolve(__dirname, "./menu.config.js"),
-        // 版本日志管理
-        "@versionsConfig": path.resolve(__dirname, './versions.config.json'),
+        "@": path.resolve(__dirname, "../src"), // 源代码路径别名
+        "@config": path.resolve(__dirname, "./"), // 基本系统配置路径别名
+        "@versionsConfig": path.resolve(__dirname, './versions.config.json'), // 版本日志管理路径别名
     },
 
     // 插件配置

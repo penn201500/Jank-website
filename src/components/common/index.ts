@@ -1,3 +1,3 @@
 export * from './AnnounceSection'
-export * from './MSection/index'
+export * from './MSection'
 export * from './Navbar'

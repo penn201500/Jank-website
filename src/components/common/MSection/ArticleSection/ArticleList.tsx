@@ -1,85 +1,86 @@
 import React from "react";
-import { Card, CardContent, CardFooter } from "@/components/ui/shadcn";
+import { Card, CardContent } from "@/components/ui/shadcn";
+import { PaginationComponent } from "@/components/common";
+import { history } from "umi";
+import parse from "html-react-parser";
+import type { HttpResponse, Post } from "@/types";
 
-type Post = {
-  id: number;
-  title: string;
-  contentHtml: string;
-  image: string;
+type ArticleListProps = {
+  posts: HttpResponse<Post>[];
+  totalPages: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  redirectEnabled?: boolean;
 };
 
-const posts: Post[] = [
-  {
-    id: 1,
-    title: "文章标题 1",
-    contentHtml: "<p>文章内容 1</p>",
-    image:
-      "https://haowallpaper.com/link/common/file/previewFileImg/15942630369381760",
-  },
-  {
-    id: 2,
-    title: "文章标题 2",
-    contentHtml: "<p>文章内容 2</p>",
-    image:
-      "https://haowallpaper.com/link/common/file/previewFileImg/16054636696685952",
-  },
-  {
-    id: 3,
-    title: "文章标题 3",
-    contentHtml: "<p>文章内容 3</p>",
-    image:
-      "https://haowallpaper.com/link/common/file/previewFileImg/15639151963443520",
-  },
-  // 添加更多文章数据
-];
+const ArticleList: React.FC<ArticleListProps> = ({
+  posts,
+  totalPages,
+  currentPage,
+  onPageChange,
+  redirectEnabled = false,
+}) => {
+  const processText = (html: string): string => {
+    const cleanText = (text: string): string =>
+      text.replace(/�/g, "").replace(/\s+/g, " ").trim();
 
-const ITEMS_PER_PAGE = 5;
+    const extractTextFromNode = (node: React.ReactNode): string =>
+      typeof node === "string"
+        ? node
+        : Array.isArray(node)
+          ? node.map(extractTextFromNode).join("")
+          : React.isValidElement(node)
+            ? extractTextFromNode(node.props.children)
+            : "";
 
-const ArticleList: React.FC = () => {
-  const paginatedPosts = posts.slice(0, ITEMS_PER_PAGE);
-
-  const getPostSummary = (html: string) => {
-    const tmp = document.createElement("div");
-    tmp.innerHTML = html;
-    const text = tmp.textContent || tmp.innerText || "";
-    return text.slice(0, 100) + (text.length > 100 ? "..." : "");
+    const text = extractTextFromNode(parse(html));
+    return cleanText(text);
   };
 
+  const handleCardClick = (postId: number) =>
+    redirectEnabled && history.push(`/articles/${postId}`);
+
   return (
-    <>
-      <Card>
-        <CardContent className="space-y-4 p-4">
-          {paginatedPosts.map((post) => (
+    <div>
+      <Card className="w-full">
+        <CardContent className="space-y-4 p-4 w-full">
+          {posts.map(({ data }) => (
             <article
-              key={post.id}
-              className="group flex md:w-[100vh] md:h-[150px] overflow-hidden rounded-xl border hover:shadow-xl"
+              key={data.id}
+              className="group flex md:h-[135px] h-[100px] overflow-hidden rounded-xl border hover:shadow-xl cursor-pointer"
+              onClick={() => handleCardClick(data.id)}
             >
-              {/* 左侧图片 */}
               <div className="relative w-1/3 overflow-hidden">
                 <img
-                  src={post.image}
-                  alt={post.title}
+                  src={data.image || "@/assets/images/loading.svg"}
+                  alt={data.title}
                   className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                 />
-                <div className="duration-500 group-hover:opacity-80" />
               </div>
-
-              {/* 右侧内容 */}
               <div className="h-full w-2/3 border-l">
-                <div className="flex flex-col justify-center space-y-3 p-4 transition-transform duration-500 ease-out group-hover:translate-x-2 sm:p-5 md:p-6">
-                  <h3 className="duration-500 ease-out md:text-xl">
-                    {post.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground duration-500 ease-out group-hover:text-current">
-                    {getPostSummary(post.contentHtml)}
+                <div className="flex flex-col justify-center space-y-2 p-4 sm:p-5 md:p-6 transition-transform duration-500 ease-out group-hover:translate-x-3">
+                  <h3 className="md:text-xl">{data.title}</h3>
+                  <p className="text-sm text-muted-foreground overflow-hidden overflow-ellipsis line-clamp-1">
+                    {processText(data.content_html)}
+                    {data.content_html.length > 40 && "..."}
                   </p>
                 </div>
               </div>
             </article>
           ))}
         </CardContent>
+
+        <div className="border mx-14"></div>
+
+        <div className="py-4">
+          <PaginationComponent
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={onPageChange}
+          />
+        </div>
       </Card>
-    </>
+    </div>
   );
 };
 

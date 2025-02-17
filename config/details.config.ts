@@ -1,7 +1,8 @@
+// details.config.ts
 export const details = {
     // 数据请求api
-    apiPrefix: document.head.dataset.api || '',
-    iframePrefix: document.head.dataset.iframe || '',
+    apiPrefix: process.env.UMI_PUBLIC_API_URL || '',
+    iframePrefix: process.env.IFRAME_PREFIX || '',
     loginLogo: '@/assets/logo.png',
     sysLogo: '@/assets/logo.png',
     // 登录页名称
@@ -12,7 +13,7 @@ export const details = {
     copyright: "2025 fenderisfine@outlook.com.",
     // 是否开启菜单权限校验
     menuPermission: true,
-    // table默认一页条数
+    // table 默认一页条数
     pageSize: 5,
     // iconFont 地址
     iconUrl: '//at.alicdn.com/t/font_1030595_depmdbpf3yc.js',

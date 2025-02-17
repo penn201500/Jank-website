@@ -1,18 +1,5 @@
 import React, { useState } from "react";
-
-export interface SocialLink {
-  name: string;
-  icon: string;
-  url: string;
-}
-
-export interface AvatarCardProps {
-  avatarUrl: string;
-  name: string;
-  title: string;
-  backDetails: string[];
-  socials: SocialLink[];
-}
+import type { AvatarCardProps } from "@/types";
 
 const AvatarCard: React.FC<AvatarCardProps> = ({
   avatarUrl,
@@ -23,35 +10,35 @@ const AvatarCard: React.FC<AvatarCardProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
+  const isIco = (icon: string) => icon.endsWith(".ico");
+  const hasNonIcoIcon = socials.some((social) => !isIco(social.icon));
+
   return (
     <>
-      <div className="w-64 h-72 relative p-4 border rounded-xl hidden md:block">
-        {/* avatar */}
-        <div className="flex flex-col items-center h-56">
+      <div className="w-60 h-72 p-4 border rounded-xl relative md:block hidden">
+        {/* Avatar Section */}
+        <div className="flex flex-col items-center">
           <div
-            className={`relative w-40 h-40 mt-4 cursor-pointer rounded-full overflow-hidden transition-all duration-700 ${
-              !isHovered ? "drop-shadow-md" : ""
-            }`}
+            className="relative w-40 h-40 mt-4 cursor-pointer"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
             <img
               src={avatarUrl}
               alt={name}
-              className={`w-full h-full object-cover rounded-full transition-all duration-700 ${
-                isHovered ? "scale-75 opacity-0" : "scale-100 opacity-100"
-              }`}
+              className={`w-full h-full object-cover rounded-full transition-all duration-700 ${isHovered ? "scale-75 opacity-0" : "scale-100 opacity-100"}`}
             />
             <div
-              className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 ${
-                isHovered ? "opacity-100" : "opacity-0"
-              }`}
+              className={`absolute inset-0 flex flex-col justify-center transition-opacity duration-700 ease-in-out ${isHovered ? "opacity-100" : "opacity-0"}`}
             >
-              {backDetails.map((detail, i) => (
+              {backDetails.map((detail, index) => (
                 <p
-                  key={i}
-                  className="text-sm text-center my-1"
-                  style={{ transitionDelay: `${i * 100}ms` }}
+                  key={index}
+                  className="text-sm text-center py-1"
+                  style={{
+                    opacity: isHovered ? "1" : "0",
+                    transition: `opacity 0.7s ease-in-out ${index * 200}ms`,
+                  }}
                 >
                   {detail}
                 </p>
@@ -60,20 +47,20 @@ const AvatarCard: React.FC<AvatarCardProps> = ({
           </div>
         </div>
 
-        {/* info */}
+        {/* Info Section */}
         <div className="absolute bottom-0 inset-x-0 p-4 flex justify-between items-center">
           <div>
-            <h3 className="text-sm font-medium truncate">{name}</h3>
+            <h3 className="text-sm">{name}</h3>
             <p className="text-xs text-gray-500 truncate">{title}</p>
           </div>
-          <div className="flex space-x-3">
+          <div className="flex space-x-2">
             {socials.map((social, i) => (
               <a
                 key={i}
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full overflow-hidden transition-all duration-500 hover:drop-shadow-lg hover:-translate-y-1"
+                className={`transition-transform duration-300 hover:drop-shadow-lg hover:translate-y-[-2px] ${hasNonIcoIcon ? "w-8 h-8 rounded-xl overflow-hidden" : ""}`}
               >
                 <img
                   src={social.icon}
