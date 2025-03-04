@@ -35,10 +35,10 @@ export const updateOnePost = (data: {
   visibility?: string,
   category_ids: number[]
 }): Promise<HttpResponse<any>> => {
-  return http.post('/post/updateOnePost', data);
+  return http.post('/v1/post/updateOnePost', data);
 };
 
 /** 删除文章 */
 export const deleteOnePost = (data: { id: number }): Promise<HttpResponse<any>> => {
-  return http.delete('/post/deleteOnePost', data);
+  return http.delete('/v1/post/deleteOnePost', data);
 };

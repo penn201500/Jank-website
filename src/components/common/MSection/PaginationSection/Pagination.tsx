@@ -38,7 +38,7 @@ const PaginationComponent: React.FC<PaginationProps> = ({
 
     for (let i = startPage; i <= endPage; i++) {
       pageNumbers.push(
-        <PaginationItem key={i}>
+        <PaginationItem key={i} className="mx-0.5">
           <PaginationLink
             href="#"
             isActive={currentPage === i}
@@ -46,6 +46,11 @@ const PaginationComponent: React.FC<PaginationProps> = ({
               e.preventDefault();
               handlePageClick(i);
             }}
+            className={`w-8 h-8 flex items-center justify-center rounded-xl border-none transition-colors duration-200 ${
+              currentPage === i
+                ? "bg-foreground/10 dark:bg-foreground/10 text-foreground dark:text-foreground"
+                : "text-foreground/60 dark:text-foreground/60 hover:text-foreground dark:hover:text-foreground"
+            }`}
           >
             {i}
           </PaginationLink>
@@ -57,8 +62,8 @@ const PaginationComponent: React.FC<PaginationProps> = ({
   };
 
   return (
-    <Pagination>
-      <PaginationContent>
+    <Pagination className="py-1.5">
+      <PaginationContent className="gap-1">
         <PaginationItem>
           <PaginationPrevious
             href="#"
@@ -66,12 +71,17 @@ const PaginationComponent: React.FC<PaginationProps> = ({
               e.preventDefault();
               if (currentPage > 1) handlePageClick(currentPage - 1);
             }}
+            className={`border-none rounded-xl transition-colors duration-200 ${
+              currentPage === 1
+                ? "text-foreground/30 dark:text-foreground/30 cursor-not-allowed"
+                : "text-foreground/60 dark:text-foreground/60 hover:bg-foreground/10 hover:text-foreground dark:hover:bg-foreground/10 dark:hover:text-foreground"
+            }`}
           />
         </PaginationItem>
         {renderPageNumbers()}
         {totalPages > 5 && currentPage < totalPages - 2 && (
           <PaginationItem>
-            <PaginationEllipsis />
+            <PaginationEllipsis className="text-foreground/60 dark:text-foreground/60" />
           </PaginationItem>
         )}
         <PaginationItem>
@@ -81,6 +91,11 @@ const PaginationComponent: React.FC<PaginationProps> = ({
               e.preventDefault();
               if (currentPage < totalPages) handlePageClick(currentPage + 1);
             }}
+            className={`border-none rounded-xl transition-colors duration-200 ${
+              currentPage === totalPages
+                ? "text-foreground/30 dark:text-foreground/30 cursor-not-allowed"
+                : "text-foreground/60 dark:text-foreground/60 hover:bg-foreground/10 hover:text-foreground dark:hover:bg-foreground/10 dark:hover:text-foreground"
+            }`}
           />
         </PaginationItem>
       </PaginationContent>

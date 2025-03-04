@@ -1,4 +1,5 @@
 import type { HttpResponse } from '@/types/HttpType';
+import { useAuthStore } from "@/store/Auth";
 
 /**
  * 请求配置接口
@@ -9,6 +10,7 @@ interface HttpRequestOptions {
   params?: Record<string, any> | string[][] | URLSearchParams;
   headers?: Record<string, string>;
   timeout?: number;
+  withToken?: boolean;
 }
 
 /**
@@ -18,7 +20,7 @@ interface HttpRequestOptions {
  * @param headers 请求头
  */
 const defaultConfig = {
-  baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:9010/api' : process.env.UMI_PUBLIC_API_URL,
+  baseURL: "http://localhost:9010/api",
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
@@ -32,9 +34,11 @@ const defaultConfig = {
  * @returns 处理后的请求配置
  */
 const requestInterceptor = (url: string, options: HttpRequestOptions) => {
+  const auth = useAuthStore.getState();
   const headers = {
     ...defaultConfig.headers,
     ...options.headers,
+    ...(options.withToken && auth.accessToken ? { 'Authorization': `Bearer ${auth.accessToken}` } : {})
   };
 
   return { url, options: { ...options, headers } };
@@ -45,22 +49,31 @@ const requestInterceptor = (url: string, options: HttpRequestOptions) => {
  * @param response 响应数据
  * @returns 处理后的响应数据
  */
-const responseInterceptor = async <T>(response: Response): Promise<HttpResponse<T>> => {
+const responseInterceptor = async <T>(response: Response, options: HttpRequestOptions): Promise<HttpResponse<T>> => {
   if (response.status >= 200 && response.status < 300) {
     const data: HttpResponse<T> = await response.json();
     return Promise.resolve(data);
   } else {
     const errorData: HttpResponse<T> = await response.json();
+    if (options.withToken && response.status === 401 && useAuthStore.getState().refreshToken) {
+      const retryOptions = {
+        ...options,
+        headers: {
+          ...options.headers,
+          'Authorization': `Bearer ${useAuthStore.getState().refreshToken}`
+        }
+      };
+      const retryResponse = await fetch(response.url, {
+        method: options.method,
+        headers: new Headers(retryOptions.headers),
+        body: options.data ? JSON.stringify(options.data) : undefined,
+      });
+      return responseInterceptor(retryResponse, options);
+    }
     return Promise.reject(errorData);
   }
 };
 
-/**
- * 发送 HTTP 请求
- * @param api 请求接口
- * @param options 请求配置
- * @returns 响应数据
- */
 async function request<T = any>(
   api: string,
   options: HttpRequestOptions = {}
@@ -84,7 +97,7 @@ async function request<T = any>(
 
     clearTimeout(timeoutId);
 
-    return responseInterceptor(response);
+    return responseInterceptor(response, finalOptions);
   } catch (error: any) {
     clearTimeout(timeoutId);
 

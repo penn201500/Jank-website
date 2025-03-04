@@ -82,6 +82,35 @@ module.exports = {
   		},
 		typography(theme) {
 			return {
+				DEFAULT: {
+					css: {
+						pre: {
+							maxWidth: '100%',
+							overflowX: 'auto',
+							whiteSpace: 'pre-wrap',
+							wordBreak: 'break-word',
+							padding: '1rem',
+							borderRadius: '0.375rem',
+							display: 'block'
+						},
+						code: {
+							whiteSpace: 'pre-wrap',
+							wordBreak: 'break-word',
+							padding: '0.2em 0.4em',
+							borderRadius: '0.25rem',
+							fontSize: '0.875em'
+						},
+						'pre code': {
+							display: 'block',
+							padding: '0',
+							backgroundColor: 'transparent',
+							borderRadius: '0'
+						},
+						'.prose': {
+							overflow: 'hidden'
+						}
+					}
+				},
 				dark: {
 					css: {
 						color: theme("colors.gray.100"),
@@ -103,12 +132,25 @@ module.exports = {
 						pre: {
 							color: theme("colors.gray.200"),
 							backgroundColor: theme("colors.gray.800"),
+							maxWidth: '100%',
+							overflowX: 'auto',
+							whiteSpace: 'pre-wrap',
+							wordBreak: 'break-word',
+							padding: '1rem',
+							borderRadius: '0.375rem',
+							display: 'block'
 						},
 						thead: {
 							color: theme("colors.gray.100"),
 							borderBottomColor: theme("colors.gray.600"),
 						},
 						"tbody tr": { borderBottomColor: theme("colors.gray.700") },
+						'pre code': {
+							display: 'block',
+							padding: '0',
+							backgroundColor: 'transparent',
+							borderRadius: '0'
+						}
 					},
 				},
 			};

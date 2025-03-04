@@ -10,7 +10,7 @@ export const registerAccount = (data: {
   email_verification_code: string;
   img_verification_code: string;
 }): Promise<HttpResponse<any>> =>
-  http.post('/account/registerAccount', data);
+  http.post('/v1/account/registerAccount', data);
 
 /** 账号密码登录 */
 export const loginAccount = (data: {
@@ -18,16 +18,16 @@ export const loginAccount = (data: {
   password: string;
   img_verification_code: string;
 }): Promise<HttpResponse<any>> =>
-  http.post('/account/loginAccount', data);
+  http.post('/v1/account/loginAccount', data);
 
 /** 账号退出 */
 export const logoutAccount = (): Promise<HttpResponse<null>> =>
-  http.post('/account/logoutAccount');
+  http.post('/v1/account/logoutAccount');
 
 /** 获取账号信息 */
 export const getAccount = (email: string): Promise<
   HttpResponse<any>
-> => http.get('/account/getAccount', { params: { email } });
+> => http.post('/v1/account/getAccount', { email });
 
 /** 重置密码 */
 export const resetPassword = (data: {
@@ -36,6 +36,6 @@ export const resetPassword = (data: {
   again_new_password: string;
   email_verification_code: string;
 }): Promise<HttpResponse<any>> =>
-  http.post('/account/resetPassword', data);
+  http.post('/v1/account/resetPassword', data);
 
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/shadcn";
-import { PaginationComponent } from "@/components/common";
+import { PaginationComponent } from "@/components/common/MSection/PaginationSection/Pagination";
 import { history } from "umi";
 import parse from "html-react-parser";
 import type { HttpResponse, Post } from "@/types";
@@ -38,14 +38,14 @@ const ArticleList: React.FC<ArticleListProps> = ({
   };
 
   const handleCardClick = (postId: number) =>
-    redirectEnabled && history.push(`/articles/${postId}`);
+    redirectEnabled && history.push(`/posts/${postId}`);
 
   return (
     <div>
       <Card className="w-full">
         <CardContent className="space-y-4 p-4 w-full">
           {posts.map(({ data }) => (
-            <article
+            <div
               key={data.id}
               className="group flex md:h-[135px] h-[100px] overflow-hidden rounded-xl border hover:shadow-xl cursor-pointer"
               onClick={() => handleCardClick(data.id)}
@@ -66,7 +66,7 @@ const ArticleList: React.FC<ArticleListProps> = ({
                   </p>
                 </div>
               </div>
-            </article>
+            </div>
           ))}
         </CardContent>
 

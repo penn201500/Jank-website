@@ -5,11 +5,11 @@ import http from '@/lib/axios';
 export const getOneCategory = (data: {
     id: number;
 }): Promise<HttpResponse<any>> =>
-    http.post('/category/getOneCategory', data);
+    http.post('/v1/category/getOneCategory', data);
 
 /** 获取类目树 */
 export const getCategoryTree = (): Promise<HttpResponse<any>> =>
-    http.post('/category/getCategoryTree');
+    http.post('/v1/category/getCategoryTree');
 
 /** 创建类目 */
 export const creatOneCategory = (data: {
@@ -17,7 +17,7 @@ export const creatOneCategory = (data: {
     description?: string;
     parent_id: number;
 }): Promise<HttpResponse<any>> =>
-    http.post('/category/creatOneCategory', data);
+    http.post('/v1/category/creatOneCategory', data);
 
 /** 更新类目 */
 export const updateOneCategory = (data: {
@@ -25,16 +25,16 @@ export const updateOneCategory = (data: {
     description?: string;
     parent_id: number;
 }): Promise<HttpResponse<any>> =>
-    http.post('/category/updateOneCategory', data);
+    http.post('/v1/category/updateOneCategory', data);
 
 /** 删除类目 */
 export const deleteOneCategory = (data: {
     id: number;
 }): Promise<HttpResponse<any>> =>
-    http.post('/category/deleteOneCategory', data);
+    http.post('/v1/category/deleteOneCategory', data);
 
 /** 获取类目子列表 */
 export const getCategoryChildrenTree = (data: {
     id: number;
 }): Promise<HttpResponse<any>> =>
-    http.post('/category/getCategoryChildrenTree', data);
+    http.post('/v1/category/getCategoryChildrenTree', data);
