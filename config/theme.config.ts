@@ -8,6 +8,12 @@ export const theme = {
                 icon: "",
             },
             {
+                title: "文章",
+                link: "/posts",
+                key: "posts",
+                icon: "",
+            },
+            {
                 title: "关于",
                 link: "/about",
                 key: "about",

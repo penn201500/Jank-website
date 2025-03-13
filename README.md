@@ -1,5 +1,5 @@
 <p style="text-align: center;">
-  <a><img src="https://s2.loli.net/2025/01/02/6F8fzMvrBDCATZk.png" alt="Jank"></a>
+  <a><img src="https://p.ipic.vip/ymgq9g.PNG" alt="Jank"></a>
 </p>
 <p style="text-align: center;">
   <em>Jank，一个轻量级的博客系统，基于 Go 语言和 Echo 框架开发，强调极简、低耦合和高扩展</em>
@@ -24,9 +24,6 @@
     <img src="https://img.shields.io/github/license/Done-0/Jank" alt="License">
   </a>
 </p>
-<p style="text-align: center; margin: 0; padding: 0; position: relative; top: -5px;">
-  <span style="text-decoration: underline; color: grey;">简体中文</span> | <a href="README_en.md" style="text-decoration: none;">English</a>
-</p>
 
 ---
 
@@ -43,7 +40,7 @@ Jank 是一个轻量级的博客系统，前端基于 React + Umi + TypeScript +
 
 - **Go 语言**：热门后端开发语言，适合构建高并发应用。
 - **Echo 框架**：高性能的 Web 框架，支持快速开发和灵活的路由管理。
-- **MySQL**：成熟的关系型数据库管理系统，支持复杂查询和事务处理。
+- **PostgreSQL**：成熟的关系型数据库管理系统，支持复杂查询和事务处理。
 - **Redis**：热门缓存解决方案，提供快速数据存取和持久化选项。
 - **JWT**：安全的用户身份验证机制，确保数据传输的完整性和安全性。
 - **Docker**：容器化部署工具，简化应用的打包和分发流程。
@@ -74,15 +71,15 @@ pnpm dev
 ```
 
 4. **访问接口**：
-   本地启动应用后，浏览器访问 [http://localhost:3000](http://localhost:3000)
+   本地启动应用后，浏览器访问 [http://localhost:8000](http://localhost:8000)
 
 启动成功后，控制台将输出如下信息：
 
 ```bash
         ╔════════════════════════════════════════════════════╗
         ║ App listening at:                                  ║
-        ║  >   Local: http://localhost:3000                  ║
-ready - ║  > Network: http://192.168.0.100:3000              ║
+        ║  >   Local: http://localhost:8000                  ║
+ready - ║  > Network: http://192.168.0.100:8000              ║
         ║                                                    ║
         ║ Now you can open browser with the above addresses↑ ║
         ╚════════════════════════════════════════════════════╝
