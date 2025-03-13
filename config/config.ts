@@ -15,5 +15,6 @@ export default defineConfig({
     plugins: [
         require.resolve('@umijs/plugins/dist/tailwindcss'),
     ],
+    esbuildMinifyIIFE: true,
     tailwindcss: {}
 });

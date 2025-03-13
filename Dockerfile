@@ -23,7 +23,7 @@ RUN pnpm config set registry https://registry.npmmirror.com/
 RUN pnpm install
 
 # 将前端代码拷贝到容器中
-COPY frontend ./
+COPY ./ ./
 
 # 构建前端项目
 RUN pnpm run build
