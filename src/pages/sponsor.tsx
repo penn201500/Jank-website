@@ -64,9 +64,9 @@ export default function SponsorPage() {
             <h2 className="text-lg font-medium text-blue-600 dark:text-blue-400 mb-1">
               🤝 成为项目支持者
             </h2>
-            <p className="text-sm font-mono text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors cursor-pointer">
+            <a className="text-sm font-mono text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors hover:underline cursor-pointer" href="https://github.com/Done-0/Jank">
               项目地址：github.com/Done-0/Jank
-            </p>
+            </a>
           </div>
         </div>
       </div>
